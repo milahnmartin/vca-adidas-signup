@@ -22,6 +22,13 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const isSubmitting = ref(false);
 
@@ -31,6 +38,10 @@ const formSchema = toTypedSchema(
     surname: z.string().min(2).max(50),
     email: z.string().email(),
     playtomic_url: z.string().url(),
+    court_side: z.enum(["left", "right"]), // New field for court side
+    paddle_type: z.string().min(1), // New field for paddle type
+    age: z.number().min(1), // New field for age, must be a positive number
+    playtomic_ranking: z.number().min(0).max(5), // New field for ranking, must be a non-negative number
   })
 );
 
@@ -118,8 +129,69 @@ const onSubmit = form.handleSubmit(async (values) => {
             <FormMessage />
           </FormItem>
         </FormField>
+
+        <FormField v-slot="{ field }" name="court_side">
+          <FormItem>
+            <FormLabel>Court Side</FormLabel>
+            <FormControl>
+              <Select v-bind="field">
+                <SelectTrigger>
+                  <SelectValue placeholder="Select Court Side" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="left">Left</SelectItem>
+                  <SelectItem value="right">Right</SelectItem>
+                </SelectContent>
+              </Select>
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        </FormField>
+
+        <FormField v-slot="{ field }" name="paddle_type">
+          <FormItem>
+            <FormLabel>Paddle Type</FormLabel>
+            <FormControl>
+              <Input
+                type="text"
+                placeholder="Enter Paddle Type"
+                v-bind="field"
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        </FormField>
+
+        <FormField v-slot="{ field }" name="age">
+          <FormItem>
+            <FormLabel>Age</FormLabel>
+            <FormControl>
+              <Input
+                type="number"
+                placeholder="Enter Your Age"
+                v-bind="field"
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        </FormField>
+
+        <FormField v-slot="{ field }" name="playtomic_ranking">
+          <FormItem>
+            <FormLabel>Playtomic Ranking</FormLabel>
+            <FormControl>
+              <Input
+                type="number"
+                placeholder="Enter Your Playtomic Ranking"
+                v-bind="field"
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        </FormField>
       </form>
     </CardContent>
+
     <CardFooter class="flex justify-between px-6 pb-6">
       <Button variant="outline" :disabled="isSubmitting" type="submit">
         {{ isSubmitting ? "Creating..." : "Submit" }}
