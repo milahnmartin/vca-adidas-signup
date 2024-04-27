@@ -1,21 +1,30 @@
 <script setup lang="ts">
+import { ref } from "vue";
 import { useForm } from "vee-validate";
 import { toTypedSchema } from "@vee-validate/zod";
 import * as z from "zod";
+import { firestore } from "@/lib/firebase-config";
 import { Db } from "@/lib/db";
-import { Button } from "@/components/ui/button";
 import {
-  FormControl,
-  FormDescription,
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
   FormField,
   FormItem,
   FormLabel,
+  FormControl,
   FormMessage,
 } from "@/components/ui/form";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { firestore } from "@/lib/firebase-config";
-import { ref } from "vue";
+
 const isSubmitting = ref(false);
+
 const formSchema = toTypedSchema(
   z.object({
     name: z.string().min(2).max(50),
@@ -49,57 +58,72 @@ const onSubmit = form.handleSubmit(async (values) => {
 </script>
 
 <template>
-  <form @submit="onSubmit" class="space-y-7">
-    <FormField v-slot="{ field }" name="name">
-      <FormItem>
-        <FormLabel>Name</FormLabel>
-        <FormControl>
-          <Input type="text" placeholder="Enter your name" v-bind="field" />
-        </FormControl>
-        <FormDescription> This is your first name. </FormDescription>
-        <FormMessage />
-      </FormItem>
-    </FormField>
+  <Card class="w-full">
+    <CardHeader>
+      <CardTitle>Create Account</CardTitle>
+      <CardDescription
+        >Fill in your details to create a new account.</CardDescription
+      >
+    </CardHeader>
+    <CardContent>
+      <form @submit="onSubmit" class="space-y-7">
+        <FormField v-slot="{ field }" name="name">
+          <FormItem>
+            <FormLabel>Name</FormLabel>
+            <FormControl>
+              <Input type="text" placeholder="Enter your name" v-bind="field" />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        </FormField>
 
-    <FormField v-slot="{ field }" name="surname">
-      <FormItem>
-        <FormLabel>Surname</FormLabel>
-        <FormControl>
-          <Input type="text" placeholder="Enter your surname" v-bind="field" />
-        </FormControl>
-        <FormDescription> This is your family name. </FormDescription>
-        <FormMessage />
-      </FormItem>
-    </FormField>
+        <FormField v-slot="{ field }" name="surname">
+          <FormItem>
+            <FormLabel>Surname</FormLabel>
+            <FormControl>
+              <Input
+                type="text"
+                placeholder="Enter your surname"
+                v-bind="field"
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        </FormField>
 
-    <FormField v-slot="{ field }" name="email">
-      <FormItem>
-        <FormLabel>Email</FormLabel>
-        <FormControl>
-          <Input type="email" placeholder="Enter your email" v-bind="field" />
-        </FormControl>
-        <FormDescription> This is your contact email. </FormDescription>
-        <FormMessage />
-      </FormItem>
-    </FormField>
+        <FormField v-slot="{ field }" name="email">
+          <FormItem>
+            <FormLabel>Email</FormLabel>
+            <FormControl>
+              <Input
+                type="email"
+                placeholder="Enter your email"
+                v-bind="field"
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        </FormField>
 
-    <FormField v-slot="{ field }" name="playtomic_url">
-      <FormItem>
-        <FormLabel>Playtomic URL</FormLabel>
-        <FormControl>
-          <Input
-            type="url"
-            placeholder="Enter the Playtomic URL"
-            v-bind="field"
-          />
-        </FormControl>
-        <FormDescription> This is the URL for Playtomic. </FormDescription>
-        <FormMessage />
-      </FormItem>
-    </FormField>
-
-    <Button variant="outline" :disabled="isSubmitting" type="submit">{{
-      isSubmitting ? "Creating..." : "Submit"
-    }}</Button>
-  </form>
+        <FormField v-slot="{ field }" name="playtomic_url">
+          <FormItem>
+            <FormLabel>Playtomic URL</FormLabel>
+            <FormControl>
+              <Input
+                type="url"
+                placeholder="Enter the Playtomic URL"
+                v-bind="field"
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        </FormField>
+      </form>
+    </CardContent>
+    <CardFooter class="flex justify-between px-6 pb-6">
+      <Button variant="outline" :disabled="isSubmitting" type="submit">
+        {{ isSubmitting ? "Creating..." : "Submit" }}
+      </Button>
+    </CardFooter>
+  </Card>
 </template>

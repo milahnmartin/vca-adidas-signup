@@ -1,33 +1,24 @@
 <script setup lang="ts">
 import Form from "@/components/Form.vue";
 import Navbar from "@/components/Navbar.vue";
+import { useColorMode } from "@vueuse/core";
+
+const mode = useColorMode();
 </script>
 
 <template>
-  <main class="h-screen bg-zinc-900 px-9">
+  <main
+    :class="[
+      'h-screen',
+      mode === 'dark' ? 'bg-black text-white' : 'bg-white text-black',
+    ]"
+  >
     <Navbar />
-    <h1 class="text-4xl text-white font-mono">
-      Welcome, Please Take Time To Fill Out These Questions...
-    </h1>
-    <div class="flex flex-col justify-center items-center">
-      <div class="w-full mx-auto p-4">
-        <Form />
-      </div>
+    <div class="flex flex-col items-center justify-center p-0 sm:px-20 gap-y-8">
+      <h1 class="text-2xl sm:text-4xl font-bold tracking-wider text-center">
+        Welcome, Please Take Time To Fill Out These Questions...
+      </h1>
+      <Form />
     </div>
   </main>
 </template>
-
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>
