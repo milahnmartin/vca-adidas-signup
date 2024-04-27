@@ -4,10 +4,13 @@ import Navbar from "@/components/Navbar.vue";
 </script>
 
 <template>
-  <main class="h-screen bg-zinc-700">
+  <main class="h-screen bg-zinc-900 px-9">
     <Navbar />
+    <h1 class="text-4xl text-white font-mono">
+      Welcome, Please Take Time To Fill Out These Questions...
+    </h1>
     <div class="flex flex-col justify-center items-center">
-      <div class="w-full max-w-3xl mx-auto p-4">
+      <div class="w-full mx-auto p-4">
         <Form />
       </div>
     </div>

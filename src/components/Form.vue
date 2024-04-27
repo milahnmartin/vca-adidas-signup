@@ -98,7 +98,7 @@ const onSubmit = form.handleSubmit(async (values) => {
       </FormItem>
     </FormField>
 
-    <Button :disabled="isSubmitting" type="submit">{{
+    <Button variant="outline" :disabled="isSubmitting" type="submit">{{
       isSubmitting ? "Creating..." : "Submit"
     }}</Button>
   </form>
